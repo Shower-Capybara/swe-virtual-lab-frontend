@@ -1,14 +1,39 @@
-// components/Header.tsx
-import React from "react";
+"use client";
+import { refreshUser } from "@/api/clientActions/login";
+import { useConfigsStore } from "@/app/providers";
+import { deleteCookie } from "cookies-next";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const Header: React.FC = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const user = useConfigsStore((state) => state.user);
+  const setUser = useConfigsStore((state) => state.setUser);
+
+  useEffect(() => {
+    refreshUser().then((res) => {
+      setUser(res);
+    });
+  }, [pathname]);
+
+  function logOut() {
+    deleteCookie("swl_token");
+    router.push("/login");
+  }
   return (
     <header>
       {/* Top Black Section */}
       <div className="bg-black text-white">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
           <h1 className="text-xl font-bold">SWE Lab</h1>
-          <button className="text-gray-300 hover:text-white">Log Out</button>
+          {user !== null ? (
+            <button className="text-gray-300 hover:text-white" onClick={logOut}>
+              Log Out
+            </button>
+          ) : (
+            <button className="text-gray-300 hover:text-white">Sign Up</button>
+          )}
         </div>
       </div>
 

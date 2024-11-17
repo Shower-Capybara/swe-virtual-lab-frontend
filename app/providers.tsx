@@ -1,5 +1,11 @@
 "use client";
-import React, { ReactNode, useEffect } from "react";
+import React, {
+  ReactNode,
+  useEffect,
+  useContext,
+  useRef,
+  createContext,
+} from "react";
 import {
   Chart as ChartJS,
   Title,
@@ -19,6 +25,14 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+
+import {
+  ConfigsStore,
+  createConfigsStore,
+  initConfigsStore,
+} from "@/stores/config";
+import { useStore } from "zustand";
+import { User } from "@/types";
 
 // Register the required chart.js elements
 ChartJS.register(
@@ -90,4 +104,47 @@ export default function QCProvider({
   );
 }
 
-export { ChartJSProvider, QCProvider };
+export type ConfigsStoreApi = ReturnType<typeof createConfigsStore>;
+
+export const ConfigsStoreContext = createContext<ConfigsStoreApi | undefined>(
+  undefined
+);
+
+export interface ConfigsStoreProviderProps {
+  children: ReactNode;
+  user: User | null;
+}
+
+const ConfigsStoreProvider = ({
+  children,
+  user,
+}: ConfigsStoreProviderProps) => {
+  const storeRef = useRef<ConfigsStoreApi>();
+  if (!storeRef.current) {
+    storeRef.current = createConfigsStore(initConfigsStore());
+  }
+
+  storeRef.current.setState({
+    user,
+  });
+
+  return (
+    <ConfigsStoreContext.Provider value={storeRef.current}>
+      {children}
+    </ConfigsStoreContext.Provider>
+  );
+};
+
+export const useConfigsStore = <T,>(
+  selector: (store: ConfigsStore) => T
+): T => {
+  const configsStoreContext = useContext(ConfigsStoreContext);
+
+  if (!configsStoreContext) {
+    throw new Error(`useConfigsStore must be used within ConfigsStoreContext`);
+  }
+
+  return useStore(configsStoreContext, selector);
+};
+
+export { ChartJSProvider, QCProvider, ConfigsStoreProvider };

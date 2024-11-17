@@ -7,6 +7,7 @@ interface AppPlaintInputProps {
   type?: string;
   error?: string | null;
   onChange?: (value: string) => void;
+  name?: string;
 }
 
 const AppPlainInput: React.FC<AppPlaintInputProps> = ({
@@ -15,6 +16,7 @@ const AppPlainInput: React.FC<AppPlaintInputProps> = ({
   placeholder,
   type = "text",
   error,
+  name,
 }) => {
   return (
     <div className="flex flex-col space-y-2 w-full">
@@ -30,6 +32,7 @@ const AppPlainInput: React.FC<AppPlaintInputProps> = ({
             : " focus:ring-black border-gray-300"
         }`}
         onChange={(e) => onChange && onChange(e.target.value)}
+        name={name}
       />
       {error !== undefined && (
         <span className="text-sm text-red-500">{error}</span>
