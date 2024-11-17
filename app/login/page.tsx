@@ -56,12 +56,14 @@ export default function LoginPage() {
       <div className="max-w-[560px] w-full flex flex-col justify-start gap-y-6 ">
         <AppPlainInput
           label="Username"
+          name="username"
           placeholder="Username"
           onChange={(val) => setUsername(val)}
           error={usernameError}
         />
         <AppPlainInput
           label="Password"
+          name="password"
           placeholder="Password"
           type="password"
           onChange={(val) => setPassword(val)}

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { jsonHeaders } from "./utils/jsonHeaders";
 
 export async function middleware(req: NextRequest) {
   // Get the swl_token cookie from the request
@@ -12,13 +13,17 @@ export async function middleware(req: NextRequest) {
     }
     return NextResponse.redirect(new URL("/login", req.url)); // Redirect to login
   }
-
+  const headers = Object.fromEntries(jsonHeaders.entries());
   // Fetch user info (replace with actual API or user-fetching logic)
-  const userRes = await fetch("https://your-api.com/user", {
-    headers: {
-      Authorization: `Bearer ${swlToken}`,
-    },
-  });
+  const userRes = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_BASE_API}/users/me`,
+    {
+      headers: {
+        Authorization: `Bearer ${swlToken.value}`,
+        ...headers,
+      },
+    }
+  );
 
   // If the user is not authenticated, remove the swl_token cookie and redirect to login
   if (userRes.status === 401) {
