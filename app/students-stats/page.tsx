@@ -1,6 +1,4 @@
 "use client";
-import AppButton from "@/components/AppButton";
-import AppSelectInput from "@/components/AppSelectInput";
 import Table from "@/components/AppTable";
 import StatsCard from "@/components/StatsCard";
 import React from "react";
@@ -127,7 +125,7 @@ function StudentStatsPage() {
       <h1 className="text-3xl font-semibold">Students stats</h1>
       <div className="flex w-full h-full flex-1 flex-col justify-start items-start gap-y-8 pt-5">
         {/* filters */}
-        <div className="flex justify-start items-center gap-x-6">
+        {/* <div className="flex justify-start items-center gap-x-6">
           <AppSelectInput
             options={["option1", "option2", "option3"]}
             placeholder={"Quiz type"}
@@ -145,7 +143,7 @@ function StudentStatsPage() {
           />
           <AppButton text="Apply" onClick={() => {}} />
           <AppButton text="Clear" onClick={() => {}} />
-        </div>
+        </div> */}
         {/* status */}
         <div className="flex w-full flex-1 justify-between items-center gap-x-8">
           <StatsCard title="Submitted quizzes" value={120} total={210} />
