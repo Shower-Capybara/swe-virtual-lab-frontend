@@ -17,9 +17,11 @@ function PlatformStatusPage() {
     })();
   }, []);
   const [startDate, setStartDate] = useState<string>(
-    formatISO(subMonths(new Date(), 1))
+    format(subMonths(new Date(), 1), "yyyy-MM-dd")
   );
-  const [endDate, setEndDate] = useState<string>(formatISO(new Date()));
+  const [endDate, setEndDate] = useState<string>(
+    format(new Date(), "yyyy-MM-dd")
+  );
   const { data, refetch } = useQuery({
     queryKey: ["platform-stats"],
     queryFn: () =>
@@ -35,17 +37,13 @@ function PlatformStatusPage() {
             placeholder="Start date"
             type="date"
             value={format(startDate, "yyyy-MM-dd")}
-            onChange={(e) =>
-              setStartDate(formatISO(parse(e, "yyyy-MM-dd", new Date())))
-            }
+            onChange={(e) => setStartDate(e)}
           />
           <AppPlainInput
             placeholder="End date"
             type="date"
             value={format(endDate, "yyyy-MM-dd")}
-            onChange={(e) =>
-              setEndDate(formatISO(parse(e, "yyyy-MM-dd", new Date())))
-            }
+            onChange={(e) => setEndDate(e)}
           />
           <AppButton
             text="Apply"
@@ -59,7 +57,11 @@ function PlatformStatusPage() {
         <Line
           data={{
             datasets: [
-              { data: data?.data?.map((item) => item.active_users) },
+              {
+                data: data?.data?.map((item) => item.active_users),
+                backgroundColor: "#FADD39",
+                borderColor: "#FADD39",
+              },
               { data: data?.data?.map((item) => item.page_views) },
             ],
             labels: data?.data?.map((item) => item.day),

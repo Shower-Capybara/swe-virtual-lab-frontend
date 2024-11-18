@@ -6,8 +6,10 @@ import Table from "@/components/AppTable";
 import StatsCard from "@/components/StatsCard";
 import { useQuery } from "@tanstack/react-query";
 import { CookieValueTypes, getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 function QuizStatsPage() {
+  const router = useRouter();
   const [token, setToken] = useState<CookieValueTypes>();
   useEffect(() => {
     (async () => {
@@ -74,6 +76,8 @@ function QuizStatsPage() {
         {/* table */}
         <div className="w-full h-fit">
           <Table
+            dataKey="id"
+            onRowClick={(id) => router.push(`/quiz-stats/${id}`)}
             data={data?.data ? data.data : []}
             headers={[
               {
