@@ -18,7 +18,6 @@ import {
   PointElement,
   LineElement,
 } from "chart.js";
-
 // Since QueryClientProvider relies on useContext under the hood, we have to put 'use client' on top
 import {
   isServer,

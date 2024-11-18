@@ -37,8 +37,10 @@ const Table = <T,>({ headers, data, onRowClick, dataKey }: TableProps<T>) => {
                   rowIndex % 2 === 1 ? "bg-gray-50" : "bg-white"
                 } hover:bg-gray-100`}
                 onClick={() => {
-                  if (onRowClick && dataKey) {
-                    onRowClick((row as any)[dataKey]);
+                  if (onRowClick) {
+                    dataKey
+                      ? onRowClick((row as any)[dataKey])
+                      : onRowClick(row);
                   }
                 }}
               >
