@@ -42,3 +42,39 @@ export interface PlatformDistributedStatsEntry {
   page_views: number;
   active_users: number;
 }
+
+export interface QuizItem {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  created_at: string;
+  questions_count: number;
+  total_submissions_count: number;
+  successful_submissions_count: number;
+  avg_time_spent_sec: number;
+}
+
+export interface QuizDetails {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  created_at: string;
+  questions_count: number;
+  total_submissions_count: number;
+  successful_submissions_count: number;
+  avg_time_spent_sec: number;
+  questions: Question[];
+}
+
+export interface Question {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  created_at: string;
+  total_answers: number;
+  correct_answers: number;
+  avg_time_spent_sec: number;
+}

@@ -4,7 +4,7 @@ import { Doughnut } from "react-chartjs-2";
 
 interface Props {
   title: string;
-  value: number;
+  value: number | string;
   total?: number;
 }
 
