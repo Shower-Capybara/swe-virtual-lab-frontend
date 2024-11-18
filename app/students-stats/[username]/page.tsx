@@ -42,10 +42,10 @@ function StudentDetailsStatsPage() {
             value={data?.data?.total_submissions || "-"}
           />
           <StatsCard
-            title="Average time on quiz"
+            title="Total time on quizzes"
             value={
               data?.data?.total_time_spent_sec
-                ? data.data.total_time_spent_sec + "sec."
+                ? (data.data.total_time_spent_sec / 60).toFixed(1) + " min."
                 : 0
             }
           />
@@ -61,15 +61,27 @@ function StudentDetailsStatsPage() {
               },
               {
                 key: "successful_submissions_count",
-                title: "successful_submissions_count",
+                title: "Successful submissions count",
               },
               {
                 key: "total_submissions_count",
-                title: "total_submissions_count",
+                title: "Total submissions count",
               },
               {
                 key: "avg_spent_time_seconds",
-                title: "avg_spent_time_seconds",
+                title: "Avg spent time",
+                render: (row: {
+                  id: number;
+                  successful_submissions_count: number;
+                  total_submissions_count: number;
+                  avg_spent_time_seconds: number;
+                }) => (
+                  <span>
+                    {row.avg_spent_time_seconds
+                      ? (row.avg_spent_time_seconds / 60).toFixed(1) + " min."
+                      : "0"}
+                  </span>
+                ),
               },
             ]}
           />

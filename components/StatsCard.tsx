@@ -20,7 +20,14 @@ const StatsCard = ({ title, value, total }: Props) => {
           <div className="w-full h-full flex justify-end items-center">
             <Doughnut
               data={{
-                datasets: [{ data: [value, total] }],
+                datasets: [
+                  {
+                    data: [
+                      value,
+                      typeof value === "number" ? total - value : 0,
+                    ],
+                  },
+                ],
               }}
               options={{
                 backgroundColor: ["#F67C00", "#FFD669"],

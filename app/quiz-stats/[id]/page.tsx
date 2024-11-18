@@ -6,6 +6,7 @@ import StatsCard from "@/components/StatsCard";
 import { Question } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { CookieValueTypes, getCookie } from "cookies-next";
+import { format } from "date-fns";
 import { notFound, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 function QuizQuestionStatsPage() {
@@ -78,10 +79,22 @@ function QuizQuestionStatsPage() {
               {
                 key: "avg_time_spent_sec",
                 title: "Time spent(sec.)",
+                render: (row: Question) => (
+                  <span>
+                    {row.avg_time_spent_sec
+                      ? (row.avg_time_spent_sec / 60).toFixed(1) + " min."
+                      : "0"}
+                  </span>
+                ),
               },
               {
                 key: "created_at",
                 title: "Created at",
+                render: (row: Question) => (
+                  <span>
+                    {format(new Date(row.created_at), "dd.MM.yyyy HH:mm")}
+                  </span>
+                ),
               },
             ]}
           />

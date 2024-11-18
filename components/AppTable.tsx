@@ -3,6 +3,7 @@ import React from "react";
 interface Header<T> {
   key: keyof T; // The key that maps to a property in the data entry
   title: string; // The display name for the column
+  render?: (row: any) => React.ReactNode;
 }
 
 interface TableProps<T> {
@@ -49,7 +50,9 @@ const Table = <T,>({ headers, data, onRowClick, dataKey }: TableProps<T>) => {
                     key={String(header.key)}
                     className="py-3 px-4 border-b border-gray-200 text-gray-600"
                   >
-                    {String(row[header.key]) || "-"}
+                    {!header.render
+                      ? String(row[header.key]) || "-"
+                      : header.render(row)}
                   </td>
                 ))}
               </tr>

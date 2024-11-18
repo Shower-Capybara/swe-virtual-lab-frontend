@@ -4,32 +4,33 @@ import { fetchHomePageStudentsData } from "@/api/serverActions/home";
 import AppButton from "@/components/AppButton";
 import Table from "@/components/AppTable";
 import StatsCard from "@/components/StatsCard";
+import { StudentItem } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { CookieValueTypes, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 function StudentStatsPage() {
-    const router = useRouter();
-    const [token, setToken] = useState<CookieValueTypes>();
-    useEffect(() => {
-      (async () => {
-        const l_token = await getCookie("swl_token");
-        setToken(l_token);
-      })();
-    }, []);
-    const skip = 0;
-    const [take, setTake] = useState<number>(10);
-    const { data, refetch } = useQuery({
-      queryKey: ["students"],
-      queryFn: () => getList(token!, skip, take),
-      enabled: !!token,
-    });
-    const { data: stats } = useQuery({
-      queryKey: ["agg_students"],
-      queryFn: () => fetchHomePageStudentsData(token!),
-      enabled: !!token,
-    });
+  const router = useRouter();
+  const [token, setToken] = useState<CookieValueTypes>();
+  useEffect(() => {
+    (async () => {
+      const l_token = await getCookie("swl_token");
+      setToken(l_token);
+    })();
+  }, []);
+  const skip = 0;
+  const [take, setTake] = useState<number>(10);
+  const { data, refetch } = useQuery({
+    queryKey: ["students"],
+    queryFn: () => getList(token!, skip, take),
+    enabled: !!token,
+  });
+  const { data: stats } = useQuery({
+    queryKey: ["agg_students"],
+    queryFn: () => fetchHomePageStudentsData(token!),
+    enabled: !!token,
+  });
   return (
     <div className="w-full h-full">
       <h1 className="text-3xl font-semibold">Students stats</h1>
@@ -38,7 +39,9 @@ function StudentStatsPage() {
         <div className="flex w-full flex-1 justify-between items-center gap-x-8">
           <StatsCard
             title="Top Students"
-            value={stats?.data?.top_students.map(x => x.name).join(', ') || '-'}
+            value={
+              stats?.data?.top_students.map((x) => x.name).join(", ") || "-"
+            }
           />
           <StatsCard
             title="Total Students"
@@ -57,7 +60,9 @@ function StudentStatsPage() {
         <div className="w-full h-fit">
           <Table
             dataKey="username"
-            onRowClick={(username) => router.push(`/students-stats/${username}`)}
+            onRowClick={(username) =>
+              router.push(`/students-stats/${username}`)
+            }
             data={data?.data ? data.data : []}
             headers={[
               {
@@ -78,7 +83,14 @@ function StudentStatsPage() {
               },
               {
                 key: "total_time_spent_sec",
-                title: "Total time spent (sec)",
+                title: "Total time spent",
+                render: (row: StudentItem) => (
+                  <span>
+                    {row.total_time_spent_sec
+                      ? (row.total_time_spent_sec / 60).toFixed(1) + " min."
+                      : "0"}
+                  </span>
+                ),
               },
             ]}
           />

@@ -4,8 +4,10 @@ import { fetchHomePageQuizzesData } from "@/api/serverActions/home";
 import AppButton from "@/components/AppButton";
 import Table from "@/components/AppTable";
 import StatsCard from "@/components/StatsCard";
+import { QuizItem } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { CookieValueTypes, getCookie } from "cookies-next";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 function QuizStatsPage() {
@@ -103,11 +105,23 @@ function QuizStatsPage() {
               },
               {
                 key: "avg_time_spent_sec",
-                title: "Time spent(sec.)",
+                title: "Average time spent",
+                render: (row: QuizItem) => (
+                  <span>
+                    {row.avg_time_spent_sec
+                      ? (row.avg_time_spent_sec / 60).toFixed(1) + " min."
+                      : "0"}
+                  </span>
+                ),
               },
               {
                 key: "created_at",
                 title: "Created at",
+                render: (row: QuizItem) => (
+                  <span>
+                    {format(new Date(row.created_at), "dd.MM.yyyy HH:mm")}
+                  </span>
+                ),
               },
             ]}
           />
