@@ -78,3 +78,25 @@ export interface Question {
   correct_answers: number;
   avg_time_spent_sec: number;
 }
+
+export interface StudentItem {
+    username: string;
+    name: string;
+    successful_submissions: number;
+    total_submissions: number;
+    total_time_spent_sec: number;
+  }
+  
+export interface StudentDetails {
+    username: string;
+    name: string;
+    successful_submissions: number;
+    total_submissions: number;
+    total_time_spent_sec: number;
+    quizes: {
+        id: number;
+        successful_submissions_count: number;
+        total_submissions_count: number;
+        avg_spent_time_seconds: number;
+    }[];
+  }

@@ -1,181 +1,95 @@
 "use client";
+import { getList } from "@/api/clientActions/student";
+import { fetchHomePageStudentsData } from "@/api/serverActions/home";
+import AppButton from "@/components/AppButton";
 import Table from "@/components/AppTable";
 import StatsCard from "@/components/StatsCard";
-import React from "react";
-
-type User = {
-  userId: number;
-  name: string;
-  email: string;
-  age: number;
-  location: string;
-};
-
-const mockUsers: User[] = [
-  {
-    userId: 1,
-    name: "Alice Johnson",
-    email: "alice.johnson@example.com",
-    age: 28,
-    location: "New York",
-  },
-  {
-    userId: 2,
-    name: "Bob Smith",
-    email: "bob.smith@example.com",
-    age: 34,
-    location: "Los Angeles",
-  },
-  {
-    userId: 3,
-    name: "Charlie Brown",
-    email: "charlie.brown@example.com",
-    age: 22,
-    location: "Chicago",
-  },
-  {
-    userId: 4,
-    name: "David Lee",
-    email: "david.lee@example.com",
-    age: 29,
-    location: "San Francisco",
-  },
-  {
-    userId: 5,
-    name: "Eva Green",
-    email: "eva.green@example.com",
-    age: 41,
-    location: "Austin",
-  },
-  {
-    userId: 6,
-    name: "Frank Miller",
-    email: "frank.miller@example.com",
-    age: 55,
-    location: "Miami",
-  },
-  {
-    userId: 7,
-    name: "Grace Davis",
-    email: "grace.davis@example.com",
-    age: 38,
-    location: "Seattle",
-  },
-  {
-    userId: 8,
-    name: "Henry Wilson",
-    email: "henry.wilson@example.com",
-    age: 30,
-    location: "Denver",
-  },
-  {
-    userId: 9,
-    name: "Isla Carter",
-    email: "isla.carter@example.com",
-    age: 24,
-    location: "Boston",
-  },
-  {
-    userId: 10,
-    name: "Jack Thompson",
-    email: "jack.thompson@example.com",
-    age: 36,
-    location: "Los Angeles",
-  },
-  {
-    userId: 11,
-    name: "Karen Scott",
-    email: "karen.scott@example.com",
-    age: 50,
-    location: "New York",
-  },
-  {
-    userId: 12,
-    name: "Liam Rodriguez",
-    email: "liam.rodriguez@example.com",
-    age: 27,
-    location: "Houston",
-  },
-  {
-    userId: 13,
-    name: "Megan Evans",
-    email: "megan.evans@example.com",
-    age: 33,
-    location: "Philadelphia",
-  },
-  {
-    userId: 14,
-    name: "Nathan Perez",
-    email: "nathan.perez@example.com",
-    age: 42,
-    location: "San Diego",
-  },
-  {
-    userId: 15,
-    name: "Olivia Moore",
-    email: "olivia.moore@example.com",
-    age: 31,
-    location: "Atlanta",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { CookieValueTypes, getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 function StudentStatsPage() {
+    const router = useRouter();
+    const [token, setToken] = useState<CookieValueTypes>();
+    useEffect(() => {
+      (async () => {
+        const l_token = await getCookie("swl_token");
+        setToken(l_token);
+      })();
+    }, []);
+    const skip = 0;
+    const [take, setTake] = useState<number>(10);
+    const { data, refetch } = useQuery({
+      queryKey: ["students"],
+      queryFn: () => getList(token!, skip, take),
+      enabled: !!token,
+    });
+    const { data: stats } = useQuery({
+      queryKey: ["agg_students"],
+      queryFn: () => fetchHomePageStudentsData(token!),
+      enabled: !!token,
+    });
   return (
     <div className="w-full h-full">
       <h1 className="text-3xl font-semibold">Students stats</h1>
       <div className="flex w-full h-full flex-1 flex-col justify-start items-start gap-y-8 pt-5">
-        {/* filters */}
-        {/* <div className="flex justify-start items-center gap-x-6">
-          <AppSelectInput
-            options={["option1", "option2", "option3"]}
-            placeholder={"Quiz type"}
-            onSelect={() => {}}
-          />
-          <AppSelectInput
-            options={["option1", "option2", "option3"]}
-            placeholder={"Quiz result"}
-            onSelect={() => {}}
-          />
-          <AppSelectInput
-            options={["option1", "option2", "option3"]}
-            placeholder={"Quiz author"}
-            onSelect={() => {}}
-          />
-          <AppButton text="Apply" onClick={() => {}} />
-          <AppButton text="Clear" onClick={() => {}} />
-        </div> */}
         {/* status */}
         <div className="flex w-full flex-1 justify-between items-center gap-x-8">
-          <StatsCard title="Submitted quizzes" value={120} total={210} />
-          <StatsCard title="Total quizzes" value={210} />
-          <StatsCard title="New quizzes" value={120} total={210} />
+          <StatsCard
+            title="Top Students"
+            value={stats?.data?.top_students.map(x => x.name).join(', ') || '-'}
+          />
+          <StatsCard
+            title="Total Students"
+            value={stats?.data?.total_students || "-"}
+          />
+          {/* <StatsCard
+            title="Average time on quiz"
+            value={
+              stats?.data?.avg_time_spent_sec
+                ? stats.data.avg_time_spent_sec.toFixed(1) + "min."
+                : 0
+            }
+          /> */}
         </div>
         {/* table */}
         <div className="w-full h-fit">
           <Table
-            data={mockUsers}
+            dataKey="username"
+            onRowClick={(username) => router.push(`/students-stats/${username}`)}
+            data={data?.data ? data.data : []}
             headers={[
               {
                 key: "name",
                 title: "Name",
               },
               {
-                key: "userId",
-                title: "ID",
+                key: "username",
+                title: "Username",
               },
               {
-                key: "email",
-                title: "E-mail",
+                key: "successful_submissions",
+                title: "Successful Submissions",
               },
               {
-                key: "age",
-                title: "Age",
+                key: "total_submissions",
+                title: "Total Submissions",
               },
               {
-                key: "location",
-                title: "Location",
+                key: "total_time_spent_sec",
+                title: "Total time spent (sec)",
               },
             ]}
+          />
+          <AppButton
+            text="Load more"
+            onClick={() => {
+              setTake((prev) => prev + 10);
+              setTimeout(() => {
+                refetch();
+              }, 100);
+            }}
           />
         </div>
       </div>
