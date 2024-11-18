@@ -66,13 +66,6 @@ function PlatformStatusPage() {
             ],
             labels: data?.data?.map((item) => item.day),
           }}
-          options={{
-            plugins: {
-              legend: {
-                display: false,
-              },
-            },
-          }}
         />
       </div>
     </div>
