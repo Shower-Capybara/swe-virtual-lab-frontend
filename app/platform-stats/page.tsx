@@ -74,7 +74,7 @@ function PlatformStatusPage() {
         <span className="text-sm text-red-500">{datesError}</span>
       )}
       <div className="w-full h-full flex-1 pt-10 flex justify-center items-start">
-        {data?.data ? (
+        {data?.data && data?.data.length > 0 ? (
           <Line
             data={{
               datasets: [
