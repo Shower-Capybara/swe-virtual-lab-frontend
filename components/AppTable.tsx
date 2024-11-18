@@ -8,9 +8,11 @@ interface Header<T> {
 interface TableProps<T> {
   headers: Header<T>[]; // Array of headers
   data: T[]; // Array of data entries
+  dataKey?: string;
+  onRowClick?: (id: unknown) => void;
 }
 
-const Table = <T,>({ headers, data }: TableProps<T>) => {
+const Table = <T,>({ headers, data, onRowClick, dataKey }: TableProps<T>) => {
   return (
     <div className="overflow-x-auto">
       <table className="w-full bg-white shadow border border-gray-200">
@@ -34,6 +36,11 @@ const Table = <T,>({ headers, data }: TableProps<T>) => {
                 className={`${
                   rowIndex % 2 === 1 ? "bg-gray-50" : "bg-white"
                 } hover:bg-gray-100`}
+                onClick={() => {
+                  if (onRowClick && dataKey) {
+                    onRowClick((row as any)[dataKey]);
+                  }
+                }}
               >
                 {headers.map((header) => (
                   <td
