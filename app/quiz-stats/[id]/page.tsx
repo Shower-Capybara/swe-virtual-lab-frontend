@@ -1,12 +1,15 @@
 "use client";
 import { getDetail } from "@/api/clientActions/quiz";
 import Table from "@/components/AppTable";
+import QuestionDetailsPopup from "@/components/QuestionDetails";
 import StatsCard from "@/components/StatsCard";
+import { Question } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { CookieValueTypes, getCookie } from "cookies-next";
 import { notFound, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 function QuizQuestionStatsPage() {
+  const [activeQuestion, setActiveQuestion] = useState<Question | null>(null);
   const params = useParams();
   if (!params.id) {
     notFound();
@@ -52,6 +55,7 @@ function QuizQuestionStatsPage() {
         <div className="w-full h-fit">
           <Table
             data={data?.data?.questions ? data.data.questions : []}
+            onRowClick={(row) => setActiveQuestion(row as Question)}
             headers={[
               {
                 key: "id",
@@ -81,6 +85,14 @@ function QuizQuestionStatsPage() {
           />
         </div>
       </div>
+      {activeQuestion && (
+        <QuestionDetailsPopup
+          question={activeQuestion}
+          onClose={() => {
+            setActiveQuestion(null);
+          }}
+        />
+      )}
     </div>
   );
 }
