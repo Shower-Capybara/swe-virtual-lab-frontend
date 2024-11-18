@@ -80,23 +80,24 @@ export interface Question {
 }
 
 export interface StudentItem {
-    username: string;
-    name: string;
-    successful_submissions: number;
-    total_submissions: number;
-    total_time_spent_sec: number;
-  }
-  
+  username: string;
+  name: string;
+  successful_submissions: number;
+  total_submissions: number;
+  total_time_spent_sec: number;
+}
+
 export interface StudentDetails {
-    username: string;
-    name: string;
-    successful_submissions: number;
-    total_submissions: number;
-    total_time_spent_sec: number;
-    quizes: {
-        id: number;
-        successful_submissions_count: number;
-        total_submissions_count: number;
-        avg_spent_time_seconds: number;
-    }[];
-  }
+  username: string;
+  name: string;
+  successful_submissions: number;
+  total_submissions: number;
+  total_time_spent_sec: number;
+  quizes: {
+    id: number;
+    title: string;
+    successful_submissions_count: number;
+    total_submissions_count: number;
+    avg_spent_time_seconds: number;
+  }[];
+}

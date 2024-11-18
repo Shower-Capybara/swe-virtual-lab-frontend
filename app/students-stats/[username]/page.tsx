@@ -60,6 +60,10 @@ function StudentDetailsStatsPage() {
                 title: "ID",
               },
               {
+                key: "title",
+                title: "Title",
+              },
+              {
                 key: "successful_submissions_count",
                 title: "Successful submissions count",
               },
