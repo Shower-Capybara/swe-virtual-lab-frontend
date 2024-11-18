@@ -29,7 +29,9 @@ function QuizQuestionStatsPage() {
 
   return (
     <div className="w-full h-full">
-      <h1 className="text-3xl font-semibold">Quiz stats</h1>
+      <h1 className="text-3xl font-semibold">
+        {data?.data?.title + " stats" || "Quiz stats"}
+      </h1>
       <div className="flex w-full h-full flex-1 flex-col justify-start items-start gap-y-8 pt-5">
         {/* status */}
         <div className="flex w-full flex-1 justify-between items-center gap-x-8">

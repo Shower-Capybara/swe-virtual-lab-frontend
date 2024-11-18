@@ -59,19 +59,16 @@ function PlatformStatusPage() {
             datasets: [
               {
                 data: data?.data?.map((item) => item.active_users),
+                label: "Active users",
                 backgroundColor: "#FADD39",
                 borderColor: "#FADD39",
               },
-              { data: data?.data?.map((item) => item.page_views) },
+              {
+                data: data?.data?.map((item) => item.page_views),
+                label: "Page views",
+              },
             ],
             labels: data?.data?.map((item) => item.day),
-          }}
-          options={{
-            plugins: {
-              legend: {
-                display: false,
-              },
-            },
           }}
         />
       </div>

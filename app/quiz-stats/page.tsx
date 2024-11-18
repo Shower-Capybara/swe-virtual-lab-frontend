@@ -23,6 +23,7 @@ function QuizStatsPage() {
     queryKey: ["quizzes"],
     queryFn: () => getList(token!, skip, take),
     enabled: !!token,
+    staleTime: 10,
   });
   const { data: stats } = useQuery({
     queryKey: ["agg_quizzes"],
