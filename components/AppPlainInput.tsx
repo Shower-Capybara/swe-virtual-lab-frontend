@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { KeyboardEventHandler } from "react";
 
 interface AppPlaintInputProps {
   label?: string;
@@ -9,6 +9,7 @@ interface AppPlaintInputProps {
   onChange?: (value: string) => void;
   name?: string;
   value?: string;
+  onkeydown?: KeyboardEventHandler<HTMLInputElement>;
 }
 
 const AppPlainInput: React.FC<AppPlaintInputProps> = ({
@@ -19,6 +20,7 @@ const AppPlainInput: React.FC<AppPlaintInputProps> = ({
   error,
   name,
   value,
+  onkeydown,
 }) => {
   return (
     <div className="flex flex-col space-y-2 w-full">
@@ -36,6 +38,7 @@ const AppPlainInput: React.FC<AppPlaintInputProps> = ({
         onChange={(e) => onChange && onChange(e.target.value)}
         value={value}
         name={name}
+        onKeyDown={onkeydown}
       />
       {error !== undefined && (
         <span className="text-sm text-red-500">{error}</span>
