@@ -29,7 +29,7 @@ export default function LoginPage() {
         router.push("/");
       }
     },
-    onError() {
+    onError(data) {
       setError("Something went wrong :(");
     },
     onSettled() {

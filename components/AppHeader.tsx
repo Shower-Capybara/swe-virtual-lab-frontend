@@ -26,7 +26,12 @@ const Header: React.FC = () => {
       {/* Top Black Section */}
       <div className="bg-black text-white">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-          <h1 className="text-xl font-bold">SWE Lab</h1>
+          <h1
+            className="text-xl font-bold cursor-pointer"
+            onClick={() => router.push("/")}
+          >
+            SWE Lab
+          </h1>
           {user !== null ? (
             <button className="text-gray-300 hover:text-white" onClick={logOut}>
               Log Out

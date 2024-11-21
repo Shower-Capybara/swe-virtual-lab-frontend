@@ -35,7 +35,9 @@ export async function submitLogin({
   } else {
     return {
       data: null,
-      error: "Error logging in. Please try again later",
+      error: (data as any)?.detail
+        ? (data as any)?.detail
+        : "Error logging in. Please try again later",
     };
   }
 }

@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 function QuizStatsPage() {
   const router = useRouter();
+  const [isLoadMoreShown, setIsLoadMoreShown] = useState<boolean>(true);
   const [token, setToken] = useState<CookieValueTypes>();
   useEffect(() => {
     (async () => {
@@ -32,6 +33,14 @@ function QuizStatsPage() {
     queryFn: () => fetchHomePageQuizzesData(token!),
     enabled: !!token,
   });
+
+  useEffect(() => {
+    if (data?.data && take > data.data.length) {
+      setIsLoadMoreShown(false);
+    } else {
+      setIsLoadMoreShown(true);
+    }
+  }, [data, take]);
   return (
     <div className="w-full h-full">
       <h1 className="text-3xl font-semibold">Quiz stats</h1>
@@ -125,15 +134,17 @@ function QuizStatsPage() {
               },
             ]}
           />
-          <AppButton
-            text="Load more"
-            onClick={() => {
-              setTake((prev) => prev + 10);
-              setTimeout(() => {
-                refetch();
-              }, 100);
-            }}
-          />
+          {isLoadMoreShown && (
+            <AppButton
+              text="Load more"
+              onClick={() => {
+                setTake((prev) => prev + 10);
+                setTimeout(() => {
+                  refetch();
+                }, 100);
+              }}
+            />
+          )}
         </div>
       </div>
     </div>
