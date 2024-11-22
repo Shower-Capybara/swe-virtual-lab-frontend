@@ -44,7 +44,7 @@ function StudentStatsPage() {
       <h1 className="text-3xl font-semibold">Students stats</h1>
       <div className="flex w-full h-full flex-1 flex-col justify-start items-start gap-y-8 pt-5">
         {/* status */}
-        <div className="flex w-full flex-1 justify-between items-center gap-x-8">
+        <div className="flex w-full flex-1 flex-col justify-center gap-y-4 md:gap-y-0 md:flex-row md:justify-between items-center gap-x-8">
           <StatsCard
             title="Top Students"
             value={

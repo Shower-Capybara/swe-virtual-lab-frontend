@@ -44,7 +44,7 @@ const Header: React.FC = () => {
 
       {/* Bottom Gray Section */}
       <div className="bg-gray-100">
-        <nav className="max-w-7xl mx-auto px-4 flex space-x-6 h-12 items-center justify-center">
+        <nav className="max-w-7xl mx-auto px-4 flex space-x-6 h-12 items-center justify-center flex-wrap">
           {[
             {
               title: "Requirement analysis",

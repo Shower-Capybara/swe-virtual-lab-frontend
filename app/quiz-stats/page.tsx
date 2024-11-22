@@ -66,7 +66,7 @@ function QuizStatsPage() {
           <AppButton text="Clear" onClick={() => {}} />
         </div> */}
         {/* status */}
-        <div className="flex w-full flex-1 justify-between items-center gap-x-8">
+        <div className="flex w-full flex-1 flex-col justify-center gap-y-4 md:gap-y-0 md:flex-row md:justify-between items-center gap-x-8">
           <StatsCard
             title="Successfully submitted quizzes"
             value={stats?.data?.successful_submissions_count || 0}

@@ -19,7 +19,7 @@ const HomePageCard: React.FC<PlatformStatsCardProps> = ({
 }) => {
   const router = useRouter();
   return (
-    <div className="bg-white shadow-md p-6 max-w-sm flex flex-col justify-between items-center">
+    <div className="bg-white shadow-md p-6 max-w-sm flex flex-col justify-between items-center w-full h-full">
       <div className="w-full">
         <h2 className="text-xl font-semibold text-center mb-4">{title}</h2>
         <div className="flex justify-center mb-4">

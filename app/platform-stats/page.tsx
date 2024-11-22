@@ -33,7 +33,7 @@ function PlatformStatusPage() {
     <div className="w-full h-full">
       <h1 className="text-3xl font-semibold">Platform statistic</h1>
       <div className="w-full flex justify-start items-center gap-x-8 pt-5">
-        <div className="flex justify-start items-center gap-x-10">
+        <div className="flex flex-col gap-y-4 md:gap-y-0 md:flex-row justify-start items-center gap-x-10">
           <AppPlainInput
             placeholder="Start date"
             type="date"
